@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} Profile page {% endblock %}
+
+{% block body %}
+    <img src="{{ user.image_url }}" class="rounded" height="200px" width="200px">
+    <p><strong>Username: {{ user.username }}</strong></p>
+    <p><strong>First name:</strong> {{ user.first_name }}</p>
+    <p><strong>Last name:</strong> {{ user.last_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Birthday:</strong> {{ user.birth_date }}</p>
+    <p><strong>Address:</strong> {{ user.address }}</p>
+    <a class="btn btn-success" href="{% url 'user:profile_update_view' user.pk %}"><i class="fa-solid fa-pen"></i>Edit Profile</a>
+    <a class="btn btn-success" href="{% url 'user:password_change' %}"><i class="fa-solid fa-pen"></i>Password Change</a>
+{% endblock %}

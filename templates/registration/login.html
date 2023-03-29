@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} Login page {% endblock %}
+
+{% block body %}
+<h1>Login Page</h1>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn btn-primary" type="submit" >Login</button>
+        <hr>
+        <a href="{% url 'user:password_reset' %}">Farggot password?</a>
+    </form>
+    {% if messages %}
+        <p>{{ mess }}</p>
+    {% endif %}
+{% endblock %}

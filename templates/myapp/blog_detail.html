@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ blog.title }}{% endblock %}
+
+{% block body %}
+
+    <hr>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-8">
+            <span>Sana: {{ blog.created | time:'h:i' }} / {{ blog.created|date:'d.m.Y' }}  | Author: {{ blog.author.username }} | </span>
+            <span> Ko'rish: {{ blog.view }}</span>
+            <h2>{{ blog.title }}</h2>
+            <div><img style="width: 80%;" src="{{ blog.image.url }}"></div>
+
+            <p>{{ blog.text }}</p>
+            {% for tag in blog.tags.all %}
+            <a href="#"> #{{ tag.name }}  | </a>
+            {% endfor %}
+            <hr>
+            {% if user == blog.author %}
+            <p>
+            <a href="{% url 'myapp:blog_update' blog.slug %}" class="btn btn-success" >Update</a>
+            <a href="{% url 'myapp:blog_delete' blog.slug %}" class="btn btn-danger" >Delete</a>
+            </p>
+            {% endif %}
+
+            <hr>
+            <div class="row">
+                <div class="col-6">
+                    {% for c in blog.comment.all %}
+                        <p>{{ c.user }}: </p>
+                        <p>{{ c.text }}</p>
+                    <hr>
+                    {% endfor %}
+                </div>
+                <div class="col-6">
+                    <form action="{% url 'myapp:comment_create' blog.slug %}" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        {% if user.is_authenticated %}
+                        <button class="btn btn-primary" >Add comment</button>
+                        {% else %}
+                        <a class="btn btn-primary"  href="{% url 'user:login_view' %}">Add comment</a>
+                        {% endif %}
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

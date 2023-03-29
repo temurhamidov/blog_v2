@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} Profile update {% endblock %}
+
+{% block body %}
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <p>{{ form.username }}<p>
+  <p>{{ form.image }}<p>
+  <p>{{ form.email }}<p>
+  <p>{{ form.address }}<p>
+  <p>{{ form.birth_date }}<p>
+  <button class="btn btn-success" type="submit">Profile Edit</button>
+</form>
+{% endblock %}

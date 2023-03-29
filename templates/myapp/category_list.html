@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} category {% endblock %}
+
+{% block body %}
+{% for category in categories %}
+    <div class="card mb-3 text-bg-dark" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      <img src="{{ category.image.url }}" class="img-fluid rounded-start" alt="..." style="width: 150px">
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+
+        <h5 class="card-title"><a href="{% url 'myapp:category_blog' category.slug %}">{{ category.name }}</a> | Blogs: {{ category.blog.count }} | Users: {{ category.users.count }}</h5>
+        <p class="card-text">{{ category.text }}</p>
+
+        {% if user in category.users.all %}
+        <a href="{% url 'myapp:category_add_user' category.slug %}"  class="btn btn-success">Tark etish</a>
+        <a href="{% url 'myapp:blog_create' %}"  class="btn btn-primary">+Add Blog</a>
+        {% else %}
+        <a href="{% url 'myapp:category_add_user' category.slug %}"  class="btn btn-success">A'zo bo'lish</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %} category {% endblock %}
+
+{% block body %}
+<table class="table text-bg-dark rounded-3">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Username</th>
+      <th scope="col">First name</th>
+      <th scope="col">Last name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Birthday</th>
+    </tr>
+  </thead>
+{% for user in users %}
+  <tbody>
+    <tr>
+      <th scope="row">{{ user.pk }}</th>
+      <td>{{ user.username }}</td>
+      <td>{{ user.first_name }}</td>
+      <td>{{ user.last_name }}</td>
+      <td>{{ user.email }}</td>
+      <td>{{ user.birth_date }}</td>
+    </tr>
+  </tbody>
+  {% endfor %}
+</table>
+{% endblock %}
