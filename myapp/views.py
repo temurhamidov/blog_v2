@@ -10,6 +10,7 @@ from django.views.generic import DetailView, ListView, UpdateView, DeleteView, C
 from .forms import BlogForm, CommentForm
 from .models import Blog, Category, Comment, Tag
 from user.models import User
+from .mixins import LoginRequrmentMixins
 # Create your views here.
 
 # class BaseMixin:
@@ -38,7 +39,7 @@ class HomeView(View):
 
 
 
-class BlogCreateView(LoginRequiredMixin, View):
+class BlogCreateView(LoginRequrmentMixins, View):
     def get(self, request):
         context = {}
         context['form'] = BlogForm
@@ -67,7 +68,7 @@ class CategoryBlogView(View):
         return render(request, 'myapp/home.html', context)
 
 
-class TagBlogView( View):
+class TagBlogView(View):
     def get(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug')
         blogs = Blog.objects.filter(tags__slug=slug)
@@ -134,7 +135,7 @@ class CategoryListView(ListView):
     #     return category_list
 
 
-class AddCategoryUserView(LoginRequiredMixin, View):
+class AddCategoryUserView(LoginRequrmentMixins, View):
     def get(self, request, *args, **kwargs):
         slug = self.kwargs.get('slug')
         category = get_object_or_404(Category, slug=slug)
@@ -147,7 +148,7 @@ class AddCategoryUserView(LoginRequiredMixin, View):
             return redirect('myapp:category_list')
 
 
-class BlogUpdateView(LoginRequiredMixin, UpdateView):
+class BlogUpdateView(LoginRequrmentMixins, UpdateView):
     model = Blog
     form_class = BlogForm
     template_name = 'myapp/blog_update.html'
@@ -177,7 +178,7 @@ class BlogUpdateView(LoginRequiredMixin, UpdateView):
     #     return initial
 
 
-class BlogDeleteView(LoginRequiredMixin, DeleteView):
+class BlogDeleteView(LoginRequrmentMixins, DeleteView):
     model = Blog
     template_name = 'myapp/blog_delete.html'
 
@@ -202,13 +203,13 @@ class CommentCreateView(CreateView):
         return redirect('myapp:home')
 
 
-class UsersListView(LoginRequiredMixin, ListView):
+class UsersListView(LoginRequrmentMixins, ListView):
     queryset = User.objects.all()
     context_object_name = 'users'
     template_name = 'myapp/users_list.html'
 
 
-class MyBlogView(LoginRequiredMixin, View):
+class MyBlogView(LoginRequrmentMixins, View):
     def get(self, request, *args, **kwargs):
         user = request.user
         blogs = Blog.objects.filter(author=user)
@@ -219,6 +220,13 @@ class MyBlogView(LoginRequiredMixin, View):
             'blogs': obj,
         }
         return render(request, 'myapp/home.html', context)
+
+
+def error_403(request, exception):
+    return render(request, '403.html')
+
+def error_404(request, exception):
+    return render(request, '404.html')
 
 
 

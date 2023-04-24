@@ -33,6 +33,9 @@ class Category(Base):
         verbose_name = 'Kategoriya'
         verbose_name_plural = 'Kategoriyalar'
 
+    def __str__(self):
+        return self.name
+
 class Tag(Base):
     class Meta:
         verbose_name = 'Tag'
