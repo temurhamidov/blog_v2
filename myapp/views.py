@@ -32,8 +32,10 @@ class HomeView(View):
 
         current_page = request.GET.get('page')
         obj = paginator.get_page(current_page)
+        nums = "a" * obj.paginator.num_pages
         context = {
             'blogs' : obj,
+            'nums': nums,
         }
         return render(request, 'myapp/home.html', context)
 
@@ -220,6 +222,19 @@ class MyBlogView(LoginRequrmentMixins, View):
             'blogs': obj,
         }
         return render(request, 'myapp/home.html', context)
+
+def search_blogs(request):
+    if request.method == 'POST':
+        search = request.POST['search']
+        blogs = Blog.objects.filter(title__contains=search)
+        context = {
+            'blogs': blogs,
+        }
+        return render(request, 'myapp/home.html', context)
+    else:
+        return redirect('myapp:home')
+
+
 
 
 def error_403(request, exception):

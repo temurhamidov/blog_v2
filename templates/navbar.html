@@ -14,8 +14,9 @@
           <li><a href="{% url 'myapp:my_blogs' %}" class="nav-link px-2 text-white">My blog</a></li>
         </ul>
 
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-          <input type="search" name="search" class="form-control form-control-dark text-bg-dark" placeholder="Search..." aria-label="Search">
+        <form method="post" action="{% url 'myapp:search_blogs' %}" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+          {% csrf_token %}
+          <input type="search" name="search" class="form-control form-control-dark text-bg-white" placeholder="enter blogs title" aria-label="Search">
         </form>
         {% if user.is_authenticated %}
             <div class="text-end">

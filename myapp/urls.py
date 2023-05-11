@@ -7,7 +7,7 @@ from .views import HomeView, \
     CategoryListView, \
     AddCategoryUserView, \
     BlogUpdateView,\
-    BlogDeleteView, CommentCreateView, TagBlogView, UsersListView, MyBlogView
+    BlogDeleteView, CommentCreateView, TagBlogView, UsersListView, MyBlogView, search_blogs
 app_name = 'myapp'
 
 urlpatterns = [
@@ -23,4 +23,5 @@ urlpatterns = [
     path('blog-comment/<slug:slug>', CommentCreateView.as_view(), name='comment_create'),
     path('user-list/', UsersListView.as_view(), name='users_list'),
     path('my-blog/', MyBlogView.as_view(), name='my_blogs'),
+    path('search/', search_blogs, name='search_blogs'),
 ]
